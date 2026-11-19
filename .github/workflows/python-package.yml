@@ -74,6 +74,7 @@ jobs:
           echo "tag=$published_tag" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
+          persist-credentials: false
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source == 'latest-release' && format('refs/tags/{0}', steps.release.outputs.tag) || github.ref }}
       - name: Build the abi3 extension wheel
         uses: PyO3/maturin-action@423a6347767a8b16e65c2a7a7042e4a921528da8  # v1.51.0
@@ -123,6 +124,7 @@ jobs:
           echo "tag=$published_tag" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v4
         with:
+          persist-credentials: false
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.source == 'latest-release' && format('refs/tags/{0}', steps.release.outputs.tag) || github.ref }}
       - name: Resolve the checked-out revision
         id: source_revision
