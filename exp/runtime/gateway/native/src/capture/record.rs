@@ -275,7 +275,7 @@ impl<R: Serialize> Record<R> {
 
 impl<R: Serialize> Record<R> {
     pub(crate) fn valid(&self) -> bool {
-        if self.schema_version != SCHEMA_VERSION
+        !(self.schema_version != SCHEMA_VERSION
             || !self.captured_at.is_finite()
             || self.captured_at < 0.0
             || [
@@ -301,11 +301,7 @@ impl<R: Serialize> Record<R> {
                 .request
                 .context
                 .get("request")
-                .is_some_and(Value::is_object)
-        {
-            return false;
-        }
-        true
+                .is_some_and(Value::is_object))
     }
 
     /// Only destinations encode records, after collection and policy have completed.

@@ -558,6 +558,8 @@ def test_real_tls_chains_enforce_exact_dns_and_deny_ip_scope(
             "verify",
             "-purpose",
             "sslserver",
+            "-verify_ip" if isinstance(sans[0], x509.IPAddress) else "-verify_hostname",
+            host,
             "-CAfile",
             str(certificate),
             str(leaf),
