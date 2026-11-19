@@ -861,7 +861,7 @@ impl Collector {
     /// Reserve actual retained byte capacity across all concurrent response taps.
     pub(crate) fn reserve_body(&self, bytes: usize) -> bool {
         self.body_bytes
-            .fetch_update(Ordering::AcqRel, Ordering::Acquire, |held| {
+            .try_update(Ordering::AcqRel, Ordering::Acquire, |held| {
                 held.checked_add(bytes)
                     .filter(|total| *total <= self.config.maximum_pending_bytes)
             })
